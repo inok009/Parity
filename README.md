@@ -30,13 +30,13 @@ Traffic → Filter (Profile B) → Extract Identifiers → Clone + Swap Auth
 ### Package structure
 
 ```
-com.bola.hunter/
+com.parity.hunter/
 ├── extension/        # BurpExtender — entry point
 ├── config/           # Profile, SessionRegistry — thread-safe credential store
-├── http/             # BolaHttpHandler, RequestCloner — interception + cloning
+├── http/             # ParityHttpHandler, RequestCloner — interception + cloning
 ├── analysis/         # IdentifierExtractor, DiffEngine, SimilarityCalculator
 ├── engine/           # ReplayEngine — out-of-band attack execution
-├── model/            # BolaFinding, FindingsStore — immutable finding records
+├── model/            # ParityFinding, FindingsStore — immutable finding records
 └── ui/               # MainTab, ProfilePanel, FindingsTableModel — Swing UI
 ```
 
@@ -56,7 +56,7 @@ com.bola.hunter/
 
 ```bash
 git clone https://github.com/inok009/parity.git
-cd cross-tenant-bola-hunter
+cd parity
 mvn clean package
 ```
 
@@ -76,7 +76,7 @@ Download the latest JAR from the [Releases](../../releases) page and load direct
 
 ## Usage
 
-1. Open the **BOLA Hunter** tab in Burp Suite
+1. Open the **Parity Hunter** tab in Burp Suite
 2. Navigate to the **Profiles** sub-tab
 3. Configure **Profile A (Attacker)** — paste the Authorization header value and a unique tenant identifier
 4. Configure **Profile B (Victim)** — paste the victim's Authorization header value and tenant identifier

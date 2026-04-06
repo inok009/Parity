@@ -1,7 +1,7 @@
 package com.parity.hunter.engine;
 
 import burp.api.montoya.MontoyaApi;
-import burp.api.montoya.http.HttpRequestResponse;
+import burp.api.montoya.http.message.HttpRequestResponse;
 import burp.api.montoya.http.message.requests.HttpRequest;
 import burp.api.montoya.http.message.responses.HttpResponse;
 
@@ -51,6 +51,7 @@ public class ReplayEngine {
         Profile attacker = registry.getProfileA();
         Profile victim   = registry.getProfileB();
         if (attacker == null || victim == null) return;
+        if (victimRequest == null || victimResponse == null) return;
 
         Set<String> identifiers = extractor.extract(victimRequest);
         String      resourceId  = identifiers.isEmpty() ? "unknown" : identifiers.iterator().next();

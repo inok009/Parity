@@ -22,11 +22,14 @@ import java.util.concurrent.Executors;
  */
 public class ParityHttpHandler implements HttpHandler {
 
+    private final MontoyaApi montoya;
     private final SessionRegistry registry;
-    private final ReplayEngine    replayEngine;
+    private final ReplayEngine replayEngine;
     private final ExecutorService executor;
 
     public ParityHttpHandler(MontoyaApi montoya, SessionRegistry registry, FindingsStore findingsStore) {
+        
+        this.montoya      = montoya;
         this.registry     = registry;
         this.replayEngine = new ReplayEngine(montoya, registry, findingsStore);
         this.executor     = Executors.newFixedThreadPool(5);
@@ -48,6 +51,7 @@ public class ParityHttpHandler implements HttpHandler {
 
         Profile     profileB = registry.getProfileB();
         HttpRequest req      = responseReceived.initiatingRequest();
+        if (req == null) return ResponseReceivedAction.continueWith(responseReceived);
 
         // Filter: only process requests containing Profile B's tenant identifier
         if (!req.toString().contains(profileB.getTenantIdentifier())) {
@@ -61,7 +65,15 @@ public class ParityHttpHandler implements HttpHandler {
         }
 
         // Async dispatch — never block Burp's handler thread
-        executor.submit(() -> replayEngine.process(req, responseReceived));
+        executor.submit(() -> {
+    try {
+        replayEngine.process(req, responseReceived);
+    } catch (Exception e) {
+        montoya.logging().logToError(
+            "[Parity] Background thread error: " + e.getMessage()
+        );
+    }
+});
 
         return ResponseReceivedAction.continueWith(responseReceived);
     }

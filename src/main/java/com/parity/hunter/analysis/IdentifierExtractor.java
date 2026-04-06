@@ -38,6 +38,7 @@ public class IdentifierExtractor {
 
         String url  = request.url();
         String body = request.bodyToString();
+        if (url == null) url = "";
 
         // 1. UUID matches in URL
         Matcher uuidMatcher = UUID_PATTERN.matcher(url);

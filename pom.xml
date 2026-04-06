@@ -11,11 +11,11 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>Cross-Tenant BOLA Hunter</name>
-    <description>
-        A Burp Suite extension that automates Cross-Tenant BOLA/IDOR detection
-        by replaying victim requests with attacker credentials and diffing responses.
-    </description>
+    <name>Parity</name>
+<description>
+    Burp Suite extension for automated Cross-Tenant BOLA/IDOR detection
+    across SaaS API workflows.
+</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
